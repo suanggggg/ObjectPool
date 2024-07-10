@@ -29,6 +29,7 @@ public:
 		return m_allocator.getNumberIdle();
 	}
 
+private:
 	void* allocate(size_t size)
 	{
 		if (sizeof(T) != size)
@@ -40,8 +41,6 @@ public:
 	{
 		m_allocator.deallocate(static_cast<T*>(p));
 	}
-private:
-	
 
 private:
 	Allocator m_allocator;
