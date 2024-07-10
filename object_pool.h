@@ -12,6 +12,23 @@ public:
 	ObjectPool() = default;
 	~ObjectPool() = default;
 
+	T* borrowObject()
+	{
+		std::cout << "borrow" << std::endl;
+		return reinterpret_cast<T*>(allocate(sizeof(T)));
+	}
+
+	void returnObject(T* p)
+	{
+		std::cout << "return" << std::endl;
+		deallocate(static_cast<void*>(p));
+	}
+
+	size_t getNumberIdle()
+	{
+		return m_allocator.getNumberIdle();
+	}
+
 	void* allocate(size_t size)
 	{
 		if (sizeof(T) != size)
@@ -23,6 +40,8 @@ public:
 	{
 		m_allocator.deallocate(static_cast<T*>(p));
 	}
+private:
+	
 
 private:
 	Allocator m_allocator;

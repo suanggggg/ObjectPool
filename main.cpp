@@ -6,42 +6,27 @@
 
 using namespace std;
 
-class TestQueueAllocator
+class A
 {
-	typedef ObjectPool<TestQueueAllocator, StackAllocator<TestQueueAllocator>> ObjectPool;
-
 public:
-	TestQueueAllocator()
-	{
-		cout << "TestQueueAllocator()" << endl;
-	}
 
-	~TestQueueAllocator()
-	{
-		cout << "~TestQueueAllocator()" << endl;
-	}
+	int x;
 
-	void* operator new(size_t size)
-	{
-		cout << "new TestQueueAllocator" << endl;
-		return pool.allocate(size);
-	}
 
-	void operator delete(void* p)
+	void show()
 	{
-		cout << "delete TestQueueAllocator" << endl;
-		pool.deallocate(p);
+		cout << x << endl;
 	}
-
-private:
-	static ObjectPool pool;
 };
-
-TestQueueAllocator::ObjectPool TestQueueAllocator::pool;
 
 int main()
 {
-	TestQueueAllocator* a = new TestQueueAllocator();
-	delete a;
+	ObjectPool<A, StackAllocator<A>> A_pool;
+	A* a = A_pool.borrowObject();
+	a->x = 100;
+	a->show();
+	cout << A_pool.getNumberIdle() << endl;
+	A_pool.returnObject(a);
+	cout << A_pool.getNumberIdle() << endl;
 	return 0;
 }

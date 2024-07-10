@@ -32,6 +32,11 @@ public:
 		m_stack.push(p);
 	}
 
+	virtual size_t getNumberIdle()
+	{
+		return m_stack.size();
+	}
+
 private:
 	std::stack<T*> m_stack;
 };
