@@ -15,11 +15,7 @@ public:
 
 	virtual T* allocate()
 	{
-		if (m_stack.empty())
-		{
-			unsigned char data[sizeof(T)];
-			return reinterpret_cast<T*>(&data);
-		}
+		if (m_stack.empty()) return nullptr;
 
 		T* p = m_stack.top();
 		m_stack.pop();
@@ -32,10 +28,7 @@ public:
 		m_stack.push(p);
 	}
 
-	virtual size_t getNumberIdle()
-	{
-		return m_stack.size();
-	}
+	virtual size_t getNumberIdle() { return m_stack.size(); }
 
 private:
 	std::stack<T*> m_stack;

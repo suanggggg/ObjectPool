@@ -14,11 +14,7 @@ public:
 
 	virtual T* allocate()
 	{
-		if (m_queue.empty())
-		{
-			unsigned char data[sizeof(T)];
-			return reinterpret_cast<T*>(&data);
-		}
+		if (m_queue.empty()) return nullptr;
 
 		T* p = m_queue.front();
 		m_queue.pop();
@@ -30,6 +26,8 @@ public:
 		if (p == nullptr) return;
 		m_queue.push(p);
 	}
+
+	virtual size_t getNumberIdle() { return m_queue.size(); }
 
 private:
 	std::queue<T*> m_queue;
