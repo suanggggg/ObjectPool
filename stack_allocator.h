@@ -10,7 +10,6 @@ class StackAllocator : public Allocator<T>
 {
 public:
 	StackAllocator() = default;
-
 	~StackAllocator() = default;
 
 	virtual T* allocate()
